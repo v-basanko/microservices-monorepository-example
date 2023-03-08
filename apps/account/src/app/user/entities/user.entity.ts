@@ -8,7 +8,7 @@ export class UserEntity implements IUser{
   passwordHash: string;
   role: UserRole;
 
-  constructor(user: IUser) {
+  constructor(user: Omit<IUser, 'passwordHash'>) {
     this._id = user._id;
     this.displayName = user.displayName;
     this.email = user.email;

@@ -9,5 +9,6 @@ import {UserRepository} from "./repositories/user.repository";
     schema: UserSchema
   }])],
   providers: [UserRepository],
+  exports: [UserRepository]
 })
 export class UserModule {}

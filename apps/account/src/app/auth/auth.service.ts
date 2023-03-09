@@ -1,9 +1,9 @@
-import {BadRequestException, ForbiddenException, Injectable, UnauthorizedException} from '@nestjs/common';
-import {RegisterDto} from "./auth.controller";
+import {BadRequestException, Injectable, UnauthorizedException} from '@nestjs/common';
 import {UserRepository} from "../user/repositories/user.repository";
 import {UserEntity} from "../user/entities/user.entity";
 import {UserRole} from "@microservices-monorepository-example/interfaces";
 import {JwtService} from "@nestjs/jwt";
+import {AccountRegister} from "@microservices-monorepository-example/contracts";
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
 
   }
 
-  async register({ email, password, displayName }: RegisterDto) {
+  async register({ email, password, displayName }: AccountRegister.Request):Promise<AccountRegister.Response> {
     const existsUser = await this.userRepository.findUser(email);
     if(existsUser) {
       throw new BadRequestException('User already exists')

@@ -1,20 +1,17 @@
-import {Body, Controller, Post, UnauthorizedException} from '@nestjs/common';
+import {Body, Controller, Inject, Post, UnauthorizedException} from '@nestjs/common';
 import { AccountLogin, AccountRegister } from "@microservices-monorepository-example/contracts";
-import {RMQService} from "nestjs-rmq";
 import {LoginDto} from "../dtos/login.dto";
 import {RegisterDto} from "../dtos/register.dto";
+import { ClientProxy } from '@nestjs/microservices';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly rmqService: RMQService
-  ) {
-  }
+  constructor(@Inject('amqp-transport-service') private client: ClientProxy) {}
 
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     try{
-      return await this.rmqService.send<AccountRegister.Request, AccountRegister.Response>(AccountRegister.topic, dto)
+      return await this.client.send({ topic: AccountRegister.topic }, dto)
     } catch (ex) {
       if(ex instanceof Error) {
         throw new UnauthorizedException(ex.message);
@@ -25,7 +22,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() dto: LoginDto) {
     try{
-      return await this.rmqService.send<AccountLogin.Request, AccountLogin.Response>(AccountLogin.topic, dto)
+      return await this.client.send({ topic: AccountLogin.topic } , dto)
     } catch (ex) {
       if(ex instanceof Error) {
         throw new UnauthorizedException(ex.message);

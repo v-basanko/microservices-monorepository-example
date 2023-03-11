@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './controllers/auth.controller';
 import { ConfigModule } from "@nestjs/config";
-import { RMQModule } from "nestjs-rmq";
 import { getRMQConfig } from "./configs/rmq.config";
 import { JwtModule } from "@nestjs/jwt";
 import { getJWTConfig } from "./configs/jwt.config";
 import { PassportModule } from "@nestjs/passport";
 import { UserController } from "./controllers/user.controller";
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { UserController } from "./controllers/user.controller";
       envFilePath: 'envs/.api.env',
       isGlobal: true
     }),
-    RMQModule.forRootAsync(getRMQConfig()),
+    ClientsModule.registerAsync(getRMQConfig()),
     JwtModule.registerAsync(getJWTConfig()),
     PassportModule
   ],

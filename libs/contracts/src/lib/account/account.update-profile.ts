@@ -1,21 +1,19 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
+import { IUser } from "@microservices-monorepository-example/interfaces";
 
-export namespace AccountUp {
+export namespace AccountUpdatePrifile {
 
-  export const topic = 'account.register.command';
+  export const topic = 'account.update-profile.command';
 
   export class Request {
 
-    @IsEmail()
-    email: string;
+    @IsString()
+    id: string;
 
     @IsString()
-    password: string;
+    user: Pick<IUser, 'displayName'>;
 
-    displayName: string;
   }
 
-  export class Response {
-    email: string;
-  }
+  export class Response {}
 }

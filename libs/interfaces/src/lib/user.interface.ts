@@ -11,4 +11,17 @@ export interface IUser {
   email: string;
   passwordHash: string;
   role: UserRole;
+  books?: Array<IUserBooks>
+}
+
+export enum PurchaseState {
+  Started = 'Started',
+  WaitingForPayment = 'WaitingForPayment',
+  Purchased = 'Purchased',
+  Canceled = 'Canceled'
+}
+
+export interface  IUserBooks {
+  bookId: string;
+  purchaseState: PurchaseState
 }

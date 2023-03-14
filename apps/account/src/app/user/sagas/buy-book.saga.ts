@@ -1,20 +1,22 @@
 import { UserEntity } from "../entities/user.entity";
-import { Inject } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 import { PurchaseState } from "@microservices-monorepository-example/interfaces";
-import { GetBookSagaState } from "./get-book.state";
+import { BuyBookSagaState } from "./buy-book.state";
+import {BuyBookSagaStateStarted } from "./buy-book.steps";
 
-export class GetBookSaga {
-  private state: GetBookSagaState;
+export class BuyBookSaga {
+  private state: BuyBookSagaState;
 
   constructor(
-    private  user: UserEntity,
-    private  bookId: string,
-    @Inject('amqp-transport-service') private client: ClientProxy) {}
+    public  user: UserEntity,
+    public  bookId: string,
+    public rmqClient: ClientProxy) {}
 
   setState(state: PurchaseState) {
     switch (state) {
-      case PurchaseState.Started: break;
+      case PurchaseState.Started:
+        this.state = new BuyBookSagaStateStarted();
+        break;
       case PurchaseState.WaitingForPayment: break;
       case PurchaseState.Purchased: break;
       case PurchaseState.Canceled: break;

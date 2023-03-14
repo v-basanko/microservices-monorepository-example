@@ -13,6 +13,6 @@ export namespace BookGetBook {
   }
 
   export class Response {
-    book: IBook;
+    book: IBook | null;
   }
 }

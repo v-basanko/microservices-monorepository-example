@@ -1,10 +1,10 @@
-import {GetBookSaga} from "./get-book.saga";
+import {BuyBookSaga} from "./buy-book.saga";
 import {UserEntity} from "../entities/user.entity";
 
-export abstract class GetBookSagaState {
-  public saga: GetBookSaga;
+export abstract class BuyBookSagaState {
+  public saga: BuyBookSaga;
 
-  public setContext(saga: GetBookSaga) {
+  public setContext(saga: BuyBookSaga) {
     this.saga = saga;
   }
 

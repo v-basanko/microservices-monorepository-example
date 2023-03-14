@@ -2,8 +2,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User } from "../models/user.model";
 import { Injectable } from "@nestjs/common";
-import {UserEntity} from "../entities/user.entity";
-import {UserRole} from "@microservices-monorepository-example/interfaces";
+import { UserEntity } from "../entities/user.entity";
 
 @Injectable()
 export class UserRepository {

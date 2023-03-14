@@ -4,10 +4,11 @@ import { LoginDto } from "../dtos/login.dto";
 import { RegisterDto } from "../dtos/register.dto";
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from "rxjs";
+import {QueueNames} from "@microservices-monorepository-example/enums";
 
 @Controller('auth')
 export class AuthController {
-  constructor(@Inject('amqp-transport-service') private client: ClientProxy) {}
+  constructor(@Inject(QueueNames.ACCOUNT) private client: ClientProxy) {}
 
   @Post('register')
   async register(@Body() dto: RegisterDto) {
@@ -25,6 +26,7 @@ export class AuthController {
     try{
       return await firstValueFrom<AccountLogin.Response>(this.client.send({ topic: AccountLogin.topic } , dto))
     } catch (ex) {
+      console.log(ex)
       if(ex instanceof Error) {
         throw new UnauthorizedException(ex.message);
       }

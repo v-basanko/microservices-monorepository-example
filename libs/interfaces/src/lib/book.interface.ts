@@ -1,4 +1,5 @@
 export interface IBook {
-  _id: string;
+  _id?: string;
   price: number;
+  name: string;
 }

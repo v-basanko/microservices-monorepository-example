@@ -1,11 +1,12 @@
 import {ClientsModuleAsyncOptions, MicroserviceOptions, Transport} from "@nestjs/microservices";
 import * as process from "process";
 import {ConfigModule, ConfigService} from "@nestjs/config";
+import {QueueNames} from "@microservices-monorepository-example/enums";
 export const getRMQConfig = ():MicroserviceOptions=>({
   transport: Transport.RMQ,
   options: {
     urls:[`amqp://${process.env.AMQP_LOGIN}:${process.env.AMQP_PASSWORD}@${process.env.AMQP_HOST}:5672`],
-    queue: process.env.AMQP_QUEUE,
+    queue: process.env[QueueNames.ACCOUNT],
     queueOptions: {
       durable: false
     },

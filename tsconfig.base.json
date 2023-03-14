@@ -18,6 +18,9 @@
       "@microservices-monorepository-example/contracts": [
         "libs/contracts/src/index.ts"
       ],
+      "@microservices-monorepository-example/enums": [
+        "libs/enums/src/index.ts"
+      ],
       "@microservices-monorepository-example/interfaces": [
         "libs/interfaces/src/index.ts"
       ]

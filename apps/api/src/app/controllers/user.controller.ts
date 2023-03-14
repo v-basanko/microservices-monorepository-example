@@ -4,10 +4,11 @@ import { UserId } from "../decorators/user.decorator";
 import { ClientProxy } from "@nestjs/microservices";
 import { AccountUserInfo } from "@microservices-monorepository-example/contracts";
 import { firstValueFrom } from "rxjs";
+import { QueueNames } from "@microservices-monorepository-example/enums";
 
 @Controller('user')
 export class UserController {
-  constructor(@Inject('amqp-transport-service') private client: ClientProxy) {}
+  constructor(@Inject(QueueNames.ACCOUNT) private client: ClientProxy) {}
 
   @UseGuards(JWTAuthGuard)
   @Get('info')

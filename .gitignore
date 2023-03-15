@@ -37,7 +37,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-.account.env
 rabbitmq/docker-compose.yml
 
 # Envs Files

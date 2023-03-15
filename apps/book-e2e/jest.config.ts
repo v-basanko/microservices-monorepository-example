@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'book-e2e',
+  displayName: 'payment-e2e',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -15,5 +15,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/book-e2e',
+  coverageDirectory: '../../coverage/payment-e2e',
 };

@@ -3,7 +3,7 @@ import { IBook } from "@microservices-monorepository-example/interfaces";
 
 export namespace BookCreateBook {
 
-  export const topic = 'book.create-book.command';
+  export const topic = 'payment.create-payment.command';
 
   export class Request {
 

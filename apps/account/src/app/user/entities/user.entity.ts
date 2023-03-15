@@ -18,6 +18,7 @@ export class UserEntity implements IUser{
     this.books = user.books;
   }
 
+
   public addBook(bookId: string) {
     const existsBook = this.books.find(b=>b.bookId === bookId);
     if(existsBook) {

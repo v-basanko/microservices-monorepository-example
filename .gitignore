@@ -39,3 +39,6 @@ testem.log
 Thumbs.db
 .account.env
 rabbitmq/docker-compose.yml
+
+# Envs Files
+envs/*.env

@@ -1,5 +1,5 @@
-import {IUser, IUserBooks, PurchaseState, UserRole} from "@microservices-monorepository-example/interfaces";
-import {compare, genSalt, hash} from "bcryptjs";
+import { IUser, IUserBooks, PurchaseState, UserRole } from "@microservices-monorepository-example/interfaces";
+import { compare, genSalt, hash } from "bcryptjs";
 
 export class UserEntity implements IUser{
   _id?: string;
@@ -18,23 +18,21 @@ export class UserEntity implements IUser{
     this.books = user.books;
   }
 
-
-  public addBook(bookId: string) {
+  setBookStatus(bookId: string, state: PurchaseState) {
     const existsBook = this.books.find(b=>b.bookId === bookId);
-    if(existsBook) {
-      throw new Error('User already have this book');
+    if(!existsBook) {
+      this.books.push({
+        bookId,
+        purchaseState: state
+      });
+      return this;
     }
-    this.books.push({
-      bookId,
-      purchaseState: PurchaseState.Started
-    })
-  }
 
-  public deleteBook(bookId) {
-    this.books = this.books.filter((b:IUserBooks)=>b.bookId !== bookId);
-  }
+    if(state === PurchaseState.Canceled) {
+      this.books = this.books.filter((b:IUserBooks)=>b.bookId !== bookId);
+      return this;
+    }
 
-  updateBookStatus(bookId: string, state: PurchaseState) {
     this.books.forEach(b => {
       if (b.bookId === bookId) {
         b.purchaseState = state;

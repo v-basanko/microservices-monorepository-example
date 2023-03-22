@@ -1,11 +1,12 @@
-import { UserEntity } from "../entities/user.entity";
+import { UserEntity } from "../../entities/user.entity";
 import { ClientProxy } from "@nestjs/microservices";
 import { PurchaseState } from "@microservices-monorepository-example/interfaces";
-import { BuyBookSagaState } from "./buy-book.state";
-import {BuyBookSagaStateStarted } from "./buy-book.steps";
+import { BuyBookSagaState } from "./states/buy-book.state";
+import { BuyBookSagaStateStarted } from "./states";
 
 export class BuyBookSaga {
   private state: BuyBookSagaState;
+  public paymentId: string;
 
   constructor(
     public  user: UserEntity,
@@ -23,7 +24,7 @@ export class BuyBookSaga {
       default: break;
     }
     this.state.setContext(this);
-    this.user.updateBookStatus(this.bookId, state);
+    this.user.setBookStatus(this.bookId, state);
   }
 
   getState() {

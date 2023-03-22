@@ -1,5 +1,6 @@
-import {BuyBookSaga} from "./buy-book.saga";
-import {UserEntity} from "../entities/user.entity";
+import { BuyBookSaga } from "../buy-book.saga";
+import { UserEntity } from "../../../entities/user.entity";
+import {PaymentCheck} from "@microservices-monorepository-example/contracts";
 
 export abstract class BuyBookSagaState {
   public saga: BuyBookSaga;
@@ -9,6 +10,6 @@ export abstract class BuyBookSagaState {
   }
 
   public abstract pay(): Promise<{ paymentLink: string, user: UserEntity }>
-  public abstract checkPayment(): Promise<{ user: UserEntity }>
+  public abstract checkPayment():  Promise<{ user: UserEntity }>
   public abstract cancel(): Promise<{ user: UserEntity }>
 }

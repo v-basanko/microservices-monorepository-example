@@ -1,11 +1,11 @@
-import {BuyBookSagaState} from "./buy-book.state";
-import {UserEntity} from "../entities/user.entity";
-import {BookGetBook, PaymentGenerateLink} from "@microservices-monorepository-example/contracts";
-import {firstValueFrom} from 'rxjs';
-import {PurchaseState} from "@microservices-monorepository-example/interfaces";
+import { BuyBookSagaState } from "./buy-book.state";
+import { UserEntity } from "../../../entities/user.entity";
+import {BookGetBook, PaymentCheck, PaymentGenerateLink} from "@microservices-monorepository-example/contracts";
+import { firstValueFrom } from 'rxjs';
+import { PurchaseState } from "@microservices-monorepository-example/interfaces";
 
 export class BuyBookSagaStateStarted extends BuyBookSagaState {
-  public async pay(): Promise<{ paymentLink: string; user: UserEntity }> {
+  public async pay(): Promise<{ paymentLink: string; paymentId: string, user: UserEntity }> {
     const { book } = await firstValueFrom<BookGetBook.Response>(this.saga.rmqClient.send({topic: BookGetBook.topic}, {
       id: this.saga.bookId
     }));
@@ -16,10 +16,11 @@ export class BuyBookSagaStateStarted extends BuyBookSagaState {
       this.saga.setState(PurchaseState.Purchased)
       return {
         paymentLink: null,
+        paymentId: null,
         user: this.saga.user
       }
     }
-    const { paymentLink } = await firstValueFrom<PaymentGenerateLink.Response>(this.saga.rmqClient.send({topic: PaymentGenerateLink.topic}, {
+    const { paymentLink, id } = await firstValueFrom<PaymentGenerateLink.Response>(this.saga.rmqClient.send({topic: PaymentGenerateLink.topic}, {
       bookId: book._id,
       userId: this.saga.user._id,
       sum: book.price
@@ -27,11 +28,12 @@ export class BuyBookSagaStateStarted extends BuyBookSagaState {
     this.saga.setState(PurchaseState.WaitingForPayment)
     return {
       paymentLink: paymentLink,
+      paymentId: id,
       user: this.saga.user
     }
   }
 
-  public checkPayment(): Promise<{ user: UserEntity }> {
+  public checkPayment():  Promise<{ user: UserEntity }> {
     throw new Error(`Payment doesn't started yet`);
   }
 

@@ -7,7 +7,7 @@ import { BookModule } from "./book/book.module";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true,  envFilePath: 'envs/.payment.env'}),
+    ConfigModule.forRoot({ isGlobal: true,  envFilePath: 'envs/.book.env'}),
     MongooseModule.forRootAsync(getMongoConfig()),
     BookModule
   ],

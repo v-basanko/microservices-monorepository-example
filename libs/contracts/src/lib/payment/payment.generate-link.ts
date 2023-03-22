@@ -18,6 +18,7 @@ export namespace PaymentGenerateLink {
   }
 
   export class Response {
+    id: string;
     paymentLink: string;
   }
 }

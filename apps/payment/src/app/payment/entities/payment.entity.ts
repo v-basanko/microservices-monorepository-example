@@ -1,22 +1,28 @@
-import { IPayment } from "@microservices-monorepository-example/interfaces";
+import {IPayment} from "@microservices-monorepository-example/interfaces";
+import {PaymentStatuses} from "@microservices-monorepository-example/enums";
 
 export class PaymentEntity implements IPayment {
   _id?: string;
-  isPaid: boolean;
+  status: PaymentStatuses;
   bookId: string;
   userId: string;
   sum: number;
 
   constructor(payment: IPayment) {
     this._id = payment._id;
-    this.isPaid = payment.isPaid || false;
+    this.status = payment.status || PaymentStatuses.IN_PROGRESS;
     this.bookId = payment.bookId;
     this.userId = payment.userId;
     this.sum = payment.sum;
   }
 
   paid() {
-    this.isPaid = true;
+    this.status = PaymentStatuses.SUCCESS;
+    return this;
+  }
+
+  cancel() {
+    this.status = PaymentStatuses.CANCELED;
     return this;
   }
 }

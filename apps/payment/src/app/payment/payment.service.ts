@@ -24,4 +24,8 @@ export class PaymentService {
     return `${this.configService.get('PAYMENT_CALLBACK_URL')}?id=${payment._id}`;
   }
 
+  public async findById(id:string): Promise<PaymentEntity> {
+    return await this.paymentRepository.findById(id);
+  }
+
 }

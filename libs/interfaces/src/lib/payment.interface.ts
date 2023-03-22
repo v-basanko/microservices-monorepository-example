@@ -1,6 +1,8 @@
+import { PaymentStatuses } from "@microservices-monorepository-example/enums";
+
 export interface IPayment {
   _id?: string;
-  isPaid?: boolean;
+  status?: PaymentStatuses;
   bookId: string;
   userId: string;
   sum: number;

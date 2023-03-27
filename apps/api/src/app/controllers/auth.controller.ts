@@ -4,7 +4,7 @@ import { LoginDto } from "../dtos/login.dto";
 import { RegisterDto } from "../dtos/register.dto";
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from "rxjs";
-import {QueueNames} from "@microservices-monorepository-example/enums";
+import { QueueNames } from "@microservices-monorepository-example/enums";
 
 @Controller('auth')
 export class AuthController {

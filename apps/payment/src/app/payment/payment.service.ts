@@ -1,10 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import {IPayment, UserRole} from "@microservices-monorepository-example/interfaces";
-import { AccountRegister } from "@microservices-monorepository-example/contracts";
+import { Injectable } from '@nestjs/common';
+import {IPayment, } from "@microservices-monorepository-example/interfaces";
 import { PaymentRepository } from "./repositories/payment.repository";
 import { ConfigService } from "@nestjs/config";
 import {PaymentEntity} from "./entities/payment.entity";
-import {Payment} from "./models/payment.model";
 
 @Injectable()
 export class PaymentService {

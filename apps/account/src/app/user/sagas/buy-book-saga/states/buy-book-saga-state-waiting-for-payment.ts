@@ -5,12 +5,12 @@ import { firstValueFrom } from 'rxjs';
 import { PurchaseState } from "@microservices-monorepository-example/interfaces";
 import { PaymentStatuses } from "@microservices-monorepository-example/enums";
 
-export class BuyBookSagaStateProcess extends BuyBookSagaState {
+export class BuyBookSagaStateWaitingForPayment extends BuyBookSagaState {
   public async pay(): Promise<{ paymentLink: string; user: UserEntity }> {
     throw new Error(`Payment is already created`);
   }
 
-  public async checkPayment(): Promise<{ user: UserEntity }> {
+  public async checkPayment(): Promise<{ user: UserEntity, status: PaymentStatuses }> {
     const { status }:PaymentCheck.Response = await firstValueFrom<PaymentCheck.Response>(this.saga.rmqClient.send({ topic: PaymentCheck.topic },{ id: this.saga.paymentId }));
     switch (status) {
       case PaymentStatuses.CANCELED:
@@ -21,7 +21,7 @@ export class BuyBookSagaStateProcess extends BuyBookSagaState {
         break;
       default: break;
     }
-    return { user: this.saga.user };
+    return { user: this.saga.user, status };
   }
 
   public async cancel(): Promise<{ user: UserEntity }> {

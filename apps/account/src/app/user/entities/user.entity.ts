@@ -1,5 +1,5 @@
-import { IUser, IUserBooks, PurchaseState, UserRole } from "@microservices-monorepository-example/interfaces";
 import { compare, genSalt, hash } from "bcryptjs";
+import { IUser, IUserBooks, PurchaseState, UserRole } from "@microservices-monorepository-example/interfaces";
 
 export class UserEntity implements IUser{
   _id?: string;

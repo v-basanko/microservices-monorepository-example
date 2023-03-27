@@ -1,9 +1,9 @@
-import {BadRequestException, Injectable, UnauthorizedException} from '@nestjs/common';
-import {UserRepository} from "../user/repositories/user.repository";
-import {UserEntity} from "../user/entities/user.entity";
-import {UserRole} from "@microservices-monorepository-example/interfaces";
-import {JwtService} from "@nestjs/jwt";
-import {AccountRegister} from "@microservices-monorepository-example/contracts";
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { UserRepository } from "../user/repositories/user.repository";
+import { UserEntity } from "../user/entities/user.entity";
+import { UserRole } from "@microservices-monorepository-example/interfaces";
+import { JwtService } from "@nestjs/jwt";
+import { AccountRegister } from "@microservices-monorepository-example/contracts";
 
 @Injectable()
 export class AuthService {

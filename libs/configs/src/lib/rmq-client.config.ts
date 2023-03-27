@@ -1,7 +1,7 @@
-import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ClientsModuleAsyncOptions, Transport } from "@nestjs/microservices";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
-export const getRMQConfig = (queueName):ClientsModuleAsyncOptions=>([{
+export const getRmqClientConfig = (queueName):ClientsModuleAsyncOptions=>([{
   name: queueName,
   inject: [ConfigService],
   imports: [ConfigModule],

@@ -1,8 +1,8 @@
 import { Body, Controller, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MessagePattern } from "@nestjs/microservices";
 import { AccountUserBooks, AccountUserInfo } from "@microservices-monorepository-example/contracts";
-import {UserRepository} from "./repositories/user.repository";
-import {UserEntity} from "./entities/user.entity";
+import { UserRepository } from "./repositories/user.repository";
+import { UserEntity } from "./entities/user.entity";
 
 @Controller()
 export class UserQueries {

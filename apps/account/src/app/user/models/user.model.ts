@@ -1,6 +1,6 @@
-import {Document} from "mongoose";
-import {IUser, IUserBooks, PurchaseState, UserRole} from "@microservices-monorepository-example/interfaces";
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { IUser, IUserBooks, PurchaseState, UserRole } from "@microservices-monorepository-example/interfaces";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 @Schema()
 export class UserBooks extends Document implements IUserBooks {

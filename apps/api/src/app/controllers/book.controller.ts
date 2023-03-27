@@ -5,7 +5,7 @@ import { BookCreateBook, BookGetBook } from "@microservices-monorepository-examp
 import { firstValueFrom } from "rxjs";
 import { BookDto } from "../dtos/book.dto";
 import { QueueNames } from "@microservices-monorepository-example/enums";
-import {GetBookDto} from "../dtos/get-book.dto";
+import { GetBookDto } from "../dtos/get-book.dto";
 
 @Controller('book')
 export class BookController {

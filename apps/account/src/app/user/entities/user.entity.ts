@@ -1,5 +1,6 @@
 import { compare, genSalt, hash } from "bcryptjs";
 import { IUser, IUserBooks, PurchaseState, UserRole } from "@microservices-monorepository-example/interfaces";
+import { PublicProfile } from "@microservices-monorepository-example/types";
 
 export class UserEntity implements IUser{
   _id?: string;
@@ -40,7 +41,7 @@ export class UserEntity implements IUser{
     });
   }
 
-  public getPublicProfile() {
+  public getPublicProfile():PublicProfile {
     return {
       email: this.email,
       role: this.role,

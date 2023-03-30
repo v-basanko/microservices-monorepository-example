@@ -26,7 +26,8 @@
       ],
       "@microservices-monorepository-example/interfaces": [
         "libs/interfaces/src/index.ts"
-      ]
+      ],
+      "@microservices-monorepository-example/types": ["libs/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { IUser } from "@microservices-monorepository-example/interfaces";
+import { PublicProfile } from "@microservices-monorepository-example/types";
 
 export namespace AccountUserInfo {
 
@@ -13,6 +13,6 @@ export namespace AccountUserInfo {
   }
 
   export class Response {
-    profile: Omit<IUser, 'passwordHash'>;
+    profile: PublicProfile;
   }
 }

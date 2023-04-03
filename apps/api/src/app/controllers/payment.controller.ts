@@ -4,6 +4,6 @@ import { QueueNames } from "@microservices-monorepository-example/enums";
 
 @Controller('payment')
 export class AuthController {
-  constructor(@Inject(QueueNames.PAYMENT) private client: ClientProxy) {}
+  constructor(@Inject(QueueNames.PAYMENT) private paymentRMQService: ClientProxy) {}
 
 }

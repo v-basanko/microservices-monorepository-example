@@ -1,7 +1,7 @@
 import { IsString } from 'class-validator';
-import { IUser } from "@microservices-monorepository-example/interfaces";
+import { UpdateProfileType } from "@microservices-monorepository-example/types";
 
-export namespace AccountUpdatePrifile {
+export namespace AccountUpdateProfile {
 
   export const topic = 'account.update-profile.command';
 
@@ -11,7 +11,7 @@ export namespace AccountUpdatePrifile {
     id: string;
 
     @IsString()
-    user: Pick<IUser, 'displayName'>;
+    user: UpdateProfileType;
 
   }
 

@@ -1,6 +1,6 @@
 import { BuyBookSaga } from "../buy-book.saga";
 import { UserEntity } from "../../../entities/user.entity";
-import { PaymentStatuses } from "@microservices-monorepository-example/enums";
+import { PaymentStatus } from "@microservices-monorepository-example/enums";
 
 export abstract class BuyBookSagaState {
   public saga: BuyBookSaga;
@@ -10,6 +10,6 @@ export abstract class BuyBookSagaState {
   }
 
   public abstract pay(): Promise<{ paymentLink: string, user: UserEntity }>
-  public abstract checkPayment():  Promise<{ user: UserEntity, status: PaymentStatuses }>
+  public abstract checkPayment():  Promise<{ user: UserEntity, status: PaymentStatus }>
   public abstract cancel(): Promise<{ user: UserEntity }>
 }

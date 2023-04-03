@@ -9,13 +9,13 @@ import { GetBookDto } from "../dtos/get-book.dto";
 
 @Controller('book')
 export class BookController {
-  constructor(@Inject(QueueNames.BOOK) private client: ClientProxy) {}
+  constructor(@Inject(QueueNames.BOOK) private bookRMQService: ClientProxy) {}
 
   @UseGuards(JWTAuthGuard)
   @Get(':id')
   async getBook(@Param() { id }: GetBookDto) {
     try{
-      return await firstValueFrom<BookGetBook.Response>(this.client.send({ topic: BookGetBook.topic }, { id }));
+      return await firstValueFrom<BookGetBook.Response>(this.bookRMQService.send({ topic: BookGetBook.topic }, { id }));
     } catch (ex) {
       if(ex instanceof Error) {
         throw new UnauthorizedException(ex.message);
@@ -27,7 +27,7 @@ export class BookController {
   @Post('')
   async createBook(@Body() book: BookDto) {
     try{
-      return await firstValueFrom<BookCreateBook.Response>(this.client.send({ topic: BookCreateBook.topic }, book));
+      return await firstValueFrom<BookCreateBook.Response>(this.bookRMQService.send({ topic: BookCreateBook.topic }, book));
     } catch (ex) {
       if(ex instanceof Error) {
         throw new UnauthorizedException(ex.message);

@@ -1,18 +1,30 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserRepository } from "../user/repositories/user.repository";
 import { UserEntity } from "./entities/user.entity";
-import { PublicProfile } from "@microservices-monorepository-example/types";
+import { PublicProfile, UpdateProfileType } from "@microservices-monorepository-example/types";
 import { UserBooks } from "./models/user.model";
 import { BuyBookSaga } from "./sagas/buy-book-saga/buy-book.saga";
-import { PaymentStatuses, QueueNames } from "@microservices-monorepository-example/enums";
+import { PaymentStatus, QueueNames } from "@microservices-monorepository-example/enums";
 import { ClientProxy } from "@nestjs/microservices";
+import { UserEventEmitter } from "./user.event-emitter";
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
-    @Inject(QueueNames.PAYMENT) private paymentServiceProxyClient: ClientProxy
+    private readonly userEventEmitter: UserEventEmitter,
+    @Inject(QueueNames.PAYMENT) private paymentRMQService: ClientProxy
   ) {}
+
+  async updateProfile(user: UpdateProfileType, id: string) {
+    const existsUser = await this.userRepository.findUserById(id);
+    if(!existsUser) {
+      throw new Error(`User don't exists`);
+    }
+    const userEntity = new UserEntity(existsUser).updateProfile(user);
+    await this.updateUser(userEntity);
+    return {};
+  }
 
   async getUserInfo(id: string):Promise<PublicProfile> {
     const user = await this.userRepository.findUserById(id);
@@ -31,21 +43,28 @@ export class UserService {
       throw new Error(`User don't exists`);
     }
     const userEntity = new UserEntity(existsUser);
-    const saga = new BuyBookSaga(userEntity, bookId, this.paymentServiceProxyClient);
+    const saga = new BuyBookSaga(userEntity, bookId, this.paymentRMQService);
     const { user, paymentLink } = await saga.getState().pay();
-    await this.userRepository.updateUser(user);
+    await this.updateUser(user);
     return paymentLink;
   }
 
-  async checkPayment(userId, bookId):Promise<PaymentStatuses> {
+  async checkPayment(userId, bookId):Promise<PaymentStatus> {
     const existsUser = await this.userRepository.findUserById(userId);
     if(!existsUser) {
       throw new Error(`User don't exists`);
     }
     const userEntity = new UserEntity(existsUser);
-    const saga = new BuyBookSaga(userEntity, bookId, this.paymentServiceProxyClient);
+    const saga = new BuyBookSaga(userEntity, bookId, this.paymentRMQService);
     const { user, status } = await saga.getState().checkPayment();
-    await this.userRepository.updateUser(user);
+    await this.updateUser(user);
     return status
+  }
+
+  private updateUser(user: UserEntity) {
+    return Promise.all([
+      this.userEventEmitter.handle(user),
+      this.userRepository.updateUser(user),
+    ])
   }
 }

@@ -1,6 +1,6 @@
 import { BuyBookSagaState } from "./buy-book.state";
 import { UserEntity } from "../../../entities/user.entity";
-import { PaymentStatuses } from "@microservices-monorepository-example/enums";
+import { PaymentStatus } from "@microservices-monorepository-example/enums";
 
 
 export class BuyBookSagaStatePurchased extends BuyBookSagaState {
@@ -8,7 +8,7 @@ export class BuyBookSagaStatePurchased extends BuyBookSagaState {
     throw new Error(`Payment already passed`);
   }
 
-  public async checkPayment(): Promise<{ user: UserEntity, status: PaymentStatuses }> {
+  public async checkPayment(): Promise<{ user: UserEntity, status: PaymentStatus }> {
     throw new Error(`Payment already passed`);
   }
 

@@ -1,6 +1,13 @@
 import { compare, genSalt, hash } from "bcryptjs";
-import { IUser, IUserBooks, PurchaseState, UserRole } from "@microservices-monorepository-example/interfaces";
+import {
+  IDomainEvent,
+  IUser,
+  IUserBooks,
+  PurchaseState,
+  UserRole
+} from "@microservices-monorepository-example/interfaces";
 import { PublicProfile } from "@microservices-monorepository-example/types";
+import {AccountChengeBook} from "@microservices-monorepository-example/contracts";
 
 export class UserEntity implements IUser{
   _id?: string;
@@ -9,6 +16,7 @@ export class UserEntity implements IUser{
   passwordHash: string;
   role: UserRole;
   books?: Array<IUserBooks>
+  events: Array<IDomainEvent> = [];
 
   constructor(user: IUser) {
     this._id = user._id;
@@ -39,6 +47,8 @@ export class UserEntity implements IUser{
         b.purchaseState = state;
       }
     });
+    this.events.push({ topic: AccountChengeBook.topic,  data: {  bookId, userId: this._id, state } })
+    return this;
   }
 
   public getPublicProfile():PublicProfile {

@@ -1,2 +1,2 @@
 export * from './lib/queue-names.enum';
-export * from './lib/payment-statuses.enum';
+export * from './lib/payment-status.enum';

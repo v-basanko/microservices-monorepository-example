@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { PaymentStatuses } from "@microservices-monorepository-example/enums";
+import { PaymentStatus } from "@microservices-monorepository-example/enums";
 
 export namespace PaymentCheck {
 
@@ -11,6 +11,6 @@ export namespace PaymentCheck {
   }
 
   export class Response {
-    status: PaymentStatuses
+    status: PaymentStatus
   }
 }

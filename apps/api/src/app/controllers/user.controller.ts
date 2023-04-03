@@ -8,13 +8,13 @@ import { QueueNames } from "@microservices-monorepository-example/enums";
 
 @Controller('user')
 export class UserController {
-  constructor(@Inject(QueueNames.ACCOUNT) private client: ClientProxy) {}
+  constructor(@Inject(QueueNames.ACCOUNT) private accountRMQService: ClientProxy) {}
 
   @UseGuards(JWTAuthGuard)
   @Get('info')
   async getUserInfo(@UserId() userId: string) {
       try{
-        return await firstValueFrom<AccountUserInfo.Response>(this.client.send({ topic: AccountUserInfo.topic }, { id: userId }));
+        return await firstValueFrom<AccountUserInfo.Response>(this.accountRMQService.send({ topic: AccountUserInfo.topic }, { id: userId }));
       } catch (ex) {
         if(ex instanceof Error) {
           throw new UnauthorizedException(ex.message);

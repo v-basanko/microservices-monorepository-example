@@ -8,12 +8,12 @@ import { QueueNames } from "@microservices-monorepository-example/enums";
 
 @Controller('auth')
 export class AuthController {
-  constructor(@Inject(QueueNames.ACCOUNT) private client: ClientProxy) {}
+  constructor(@Inject(QueueNames.ACCOUNT) private accountRMQService: ClientProxy) {}
 
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     try{
-      return await firstValueFrom<AccountRegister.Response>(this.client.send({ topic: AccountRegister.topic }, dto));
+      return await firstValueFrom<AccountRegister.Response>(this.accountRMQService.send({ topic: AccountRegister.topic }, dto));
     } catch (ex) {
       if(ex instanceof Error) {
         throw new UnauthorizedException(ex.message);
@@ -24,7 +24,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() dto: LoginDto) {
     try{
-      return await firstValueFrom<AccountLogin.Response>(this.client.send({ topic: AccountLogin.topic } , dto))
+      return await firstValueFrom<AccountLogin.Response>(this.accountRMQService.send({ topic: AccountLogin.topic } , dto))
     } catch (ex) {
       console.log(ex)
       if(ex instanceof Error) {

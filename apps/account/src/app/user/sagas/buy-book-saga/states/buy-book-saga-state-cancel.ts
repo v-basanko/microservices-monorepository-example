@@ -1,7 +1,7 @@
 import { BuyBookSagaState } from "./buy-book.state";
 import { UserEntity } from "../../../entities/user.entity";
 import { PurchaseState } from "@microservices-monorepository-example/interfaces";
-import { PaymentStatuses } from "@microservices-monorepository-example/enums";
+import { PaymentStatus } from "@microservices-monorepository-example/enums";
 
 export class BuyBookSagaStateCancel extends BuyBookSagaState {
   public async pay(): Promise<{ paymentLink: string; user: UserEntity }> {
@@ -9,7 +9,7 @@ export class BuyBookSagaStateCancel extends BuyBookSagaState {
     return this.saga.getState().pay();
   }
 
-  public async checkPayment(): Promise<{ user: UserEntity, status: PaymentStatuses }> {
+  public async checkPayment(): Promise<{ user: UserEntity, status: PaymentStatus }> {
     throw new Error(`Payment already cancel`);
   }
 

@@ -3,7 +3,7 @@ import { UserEntity } from "../../../entities/user.entity";
 import { BookGetBook, PaymentGenerateLink } from "@microservices-monorepository-example/contracts";
 import { firstValueFrom } from 'rxjs';
 import { PurchaseState } from "@microservices-monorepository-example/interfaces";
-import { PaymentStatuses } from "@microservices-monorepository-example/enums";
+import { PaymentStatus } from "@microservices-monorepository-example/enums";
 
 export class BuyBookSagaStateStarted extends BuyBookSagaState {
   public async pay(): Promise<{ paymentLink: string; paymentId: string, user: UserEntity }> {
@@ -34,7 +34,7 @@ export class BuyBookSagaStateStarted extends BuyBookSagaState {
     }
   }
 
-  public checkPayment():  Promise<{ user: UserEntity, status: PaymentStatuses }> {
+  public checkPayment():  Promise<{ user: UserEntity, status: PaymentStatus }> {
     throw new Error(`Payment doesn't started yet`);
   }
 

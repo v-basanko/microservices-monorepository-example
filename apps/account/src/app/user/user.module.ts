@@ -7,6 +7,8 @@ import { UserQueries } from "./user.queries";
 import { ClientsModule } from '@nestjs/microservices';
 import { QueueNames } from "@microservices-monorepository-example/enums";
 import { getRmqClientConfig } from "@microservices-monorepository-example/configs";
+import { UserService } from "./user.service";
+import {UserEventEmitter} from "./user.event-emitter";
 
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { getRmqClientConfig } from "@microservices-monorepository-example/config
   }]),
     ClientsModule.registerAsync(getRmqClientConfig(QueueNames.PAYMENT)),
   ],
-  providers: [UserRepository],
+  providers: [UserRepository, UserEventEmitter, UserService],
   exports: [UserRepository],
   controllers: [UserCommands, UserQueries]
 })
